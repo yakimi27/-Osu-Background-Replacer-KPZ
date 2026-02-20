@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -51,7 +52,7 @@ namespace OsuBackgroundReplacerMain.Logic
                         if (file != null)
                         {
                             string type = file.FileType.ToLower();
-                            if (type == ".jpg" || type == ".jpeg" || type == ".png")
+                            if (Constants.SupportedImageExtensions.Contains(type))
                             {
                                 SelectedImagePath = file.Path;
                             }
