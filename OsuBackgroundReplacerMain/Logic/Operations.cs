@@ -23,7 +23,6 @@ namespace OsuBackgroundReplacerMain.Logic
 
                 List<string> replacedFiles = new List<string>();
 
-                // Get all files (run on background thread to keep UI responsive)
                 var allImageFiles = await Task.Run(() =>
                     Directory.GetDirectories(FolderOperations.SelectedFolderPath)
                     .SelectMany(folder => Directory.GetFiles(folder, "*.*")
@@ -35,7 +34,6 @@ namespace OsuBackgroundReplacerMain.Logic
                 int total = allImageFiles.Count;
                 int current = 0;
 
-                // Process folders
                 var folders = Directory.GetDirectories(FolderOperations.SelectedFolderPath);
 
                 foreach (var folder in folders)
@@ -71,7 +69,6 @@ namespace OsuBackgroundReplacerMain.Logic
                     }
                 }
 
-                // Use DispatcherQueue to update UI from background thread
                 MainWindow.Current.DispatcherQueue.TryEnqueue(async () =>
                 {
                     await MainWindow.ShowDialogAsync($"Successfully changed {replacedFiles.Count} files.", "Done");

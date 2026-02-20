@@ -15,10 +15,8 @@ namespace OsuBackgroundReplacerMain.Logic
         {
             try
             {
-                // WinUI 3 File Picker setup
                 var openPicker = new FileOpenPicker();
 
-                // Retrieve the window handle (HWND) of the current WinUI 3 window.
                 var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
                 WinRT.Interop.InitializeWithWindow.Initialize(openPicker, hWnd);
 

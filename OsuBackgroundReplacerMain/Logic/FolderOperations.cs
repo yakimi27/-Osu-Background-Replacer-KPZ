@@ -17,7 +17,6 @@ namespace OsuBackgroundReplacerMain.Logic
             {
                 var folderPicker = new FolderPicker();
 
-                // Retrieve the window handle (HWND)
                 var hWnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
                 WinRT.Interop.InitializeWithWindow.Initialize(folderPicker, hWnd);
 
