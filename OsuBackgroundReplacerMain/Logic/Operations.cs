@@ -17,8 +17,7 @@ namespace OsuBackgroundReplacerMain.Logic
                     !File.Exists(ImageOperations.SelectedImagePath) ||
                     !Directory.Exists(FolderOperations.SelectedFolderPath))
                 {
-                    await MainWindow.ShowDialogAsync("File or folder does not exist.", "Error");
-                    return new List<string>();
+                    throw new InvalidOperationException("File or folder does not exist.");
                 }
 
                 List<string> replacedFiles = new List<string>();
@@ -54,8 +53,7 @@ namespace OsuBackgroundReplacerMain.Logic
                             }
                             catch (Exception exception)
                             {
-                                await MainWindow.ShowDialogAsync($"Issue: {exception.Message}", "Error");
-                                return new List<string>();
+                                throw new InvalidOperationException($"Issue: {exception.Message}");
                             }
 
                             current++;
@@ -65,17 +63,11 @@ namespace OsuBackgroundReplacerMain.Logic
                     }
                 }
 
-                MainWindow.Current.DispatcherQueue.TryEnqueue(async () =>
-                {
-                    await MainWindow.ShowDialogAsync($"Successfully changed {replacedFiles.Count} files.", "Done");
-                });
-
                 return replacedFiles;
             }
             catch (Exception exception)
             {
-                await MainWindow.ShowDialogAsync(exception.Message, "Error in replacing");
-                return new List<string>();
+                throw new InvalidOperationException(exception.Message);
             }
         }
     }
