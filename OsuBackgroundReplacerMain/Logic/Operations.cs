@@ -26,9 +26,7 @@ namespace OsuBackgroundReplacerMain.Logic
                 var allImageFiles = await Task.Run(() =>
                     Directory.GetDirectories(FolderOperations.SelectedFolderPath)
                     .SelectMany(folder => Directory.GetFiles(folder, "*.*")
-                        .Where(f => f.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
-                                    f.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
-                                    f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)))
+                        .Where(f => Constants.IsSupportedImage(f)))
                     .ToList());
 
                 int total = allImageFiles.Count;
@@ -39,9 +37,7 @@ namespace OsuBackgroundReplacerMain.Logic
                 foreach (var folder in folders)
                 {
                     var imageFiles = await Task.Run(() => Directory.GetFiles(folder, "*.*")
-                        .Where(f => f.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
-                                    f.EndsWith(".png", StringComparison.OrdinalIgnoreCase) ||
-                                    f.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase))
+                        .Where(f => Constants.IsSupportedImage(f))
                         .ToList());
 
                     if (imageFiles.Count > 0)
