@@ -89,13 +89,24 @@ namespace OsuBackgroundReplacerMain
                 if (result != ContentDialogResult.Primary) return;
             }
 
-            var progress = new Progress<int>(p => ReplacingProgressBar.Value = p);
+            try
+            {
+                ReplacingProgressBar.Visibility = Visibility.Visible;
+                var progress = new Progress<int>(p => ReplacingProgressBar.Value = p);
 
-            ReplacingProgressBar.Visibility = Visibility.Visible;
-            List<string> replacedFiles = await Operations.Replacement(progress);
-            ReplacingProgressBar.Visibility = Visibility.Collapsed;
+                List<string> replacedFiles = await Operations.Replacement(progress);
 
-            ActivityLog.ItemsSource = replacedFiles;
+                ActivityLog.ItemsSource = replacedFiles;
+                await ShowDialogAsync($"Successfully changed {replacedFiles.Count} files.", "Done");
+            }
+            catch (Exception ex)
+            {
+                await ShowDialogAsync(ex.Message, "Error in replacing");
+            }
+            finally
+            {
+                ReplacingProgressBar.Visibility = Visibility.Collapsed;
+            }
         }
 
         public static async Task<ContentDialogResult> ShowDialogAsync(string content, string title, string primaryBtnText = "OK", string closeBtnText = null)
